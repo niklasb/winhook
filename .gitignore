@@ -3,4 +3,6 @@
 *.pdb
 *.ilk
 *.exe
-*.idb
+*.id*
+*.nam
+*.til

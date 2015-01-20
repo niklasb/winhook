@@ -197,6 +197,8 @@ DWORD WINAPI mainloop(void *_) {
         if (!handle_command(buf))
             break;
     }
+	send_message_f("[*] exiting");
+	cleanup();
     // for some weird reason, if we call FreeLibraryAndExitThread directly here,
     // the DLL is unloaded but there is still some dangling handle on the DLL
     // file. Workaround seems to be just to do this, I don't know why.
