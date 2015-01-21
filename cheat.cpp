@@ -6,7 +6,6 @@ struct Actor {
 float run_speed = 50000.0;
 float jump_speed = 1000.0;
 Player *player = 0;
-Player *player2 = 0;
 
 struct Vector3 {
     float x, y, z;
@@ -22,12 +21,7 @@ END_HOOK
 
 DECLARE_HOOK_THISCALL("gamelogic.dll", 0x4ff90, float, Player_GetWalkingSpeed, Player*)
     player = this_;
-    return jump_speed;
-END_HOOK
-
-DECLARE_HOOK_THISCALL("gamelogic.dll", 0x13940, float, Player_GetSprintMultiplier, Player*)
-    player2 = this_;
-    return jump_speed;
+    return run_speed;
 END_HOOK
 
 Actor* actor_from_player(Player* p) {
@@ -56,7 +50,6 @@ Hook* hooks[] = {
     &Player_CanJump_hook,
     &Player_GetJumpSpeed_hook,
     &Player_GetWalkingSpeed_hook,
-    &Player_GetSprintMultiplier_hook,
 	&Actor_GetPosition_hook,
 	&Actor_SetPosition_hook,
 	&Player_FastTravel_hook,
@@ -90,7 +83,7 @@ void handle_user_command(string cmd, vector<string> args) {
             jump_speed = convert_string<float>(args[0]);
         send_message_f("Jump speed is %f", jump_speed);
     } else if (cmd == "p") {
-        send_message_f("Player = 0x%p 0x%p", player, player2);
+        send_message_f("Player = 0x%p 0x%p", player);
     } else if (cmd == "getpos") {
         if (!player) {
 			send_message_f("[!] No player object set");
